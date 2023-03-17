@@ -33,8 +33,9 @@ if len(sys.argv) < 3:
 # output in the same directory as the model
 dir_model = sys.argv[1]
 
-fname_hparams   = sys.argv[1] + "/params.json"
+fname_hparams = sys.argv[1] + "/params.json"
 fname_tokenizer = sys.argv[1] + "/../tokenizer.model"
+
 
 def get_n_parts(dim):
     if dim == 4096:
@@ -48,6 +49,7 @@ def get_n_parts(dim):
     else:
         print("Invalid dim: " + str(dim))
         sys.exit(1)
+
 
 # possible data types
 #   ftype == 0 -> float32
@@ -79,7 +81,7 @@ print('n_parts = ', n_parts)
 for p in range(n_parts):
     print('Processing part ', p)
 
-    #fname_model = sys.argv[1] + "/consolidated.00.pth"
+    # fname_model = sys.argv[1] + "/consolidated.00.pth"
     fname_model = sys.argv[1] + "/consolidated.0" + str(p) + ".pth"
     fname_out = sys.argv[1] + "/ggml-model-" + ftype_str[ftype] + ".bin"
     if (p > 0):
@@ -89,13 +91,13 @@ for p in range(n_parts):
 
     fout = open(fname_out, "wb")
 
-    fout.write(struct.pack("i", 0x67676d6c)) # magic: ggml in hex
+    fout.write(struct.pack("i", 0x67676d6c))  # magic: ggml in hex
     fout.write(struct.pack("i", hparams["vocab_size"]))
     fout.write(struct.pack("i", hparams["dim"]))
     fout.write(struct.pack("i", hparams["multiple_of"]))
     fout.write(struct.pack("i", hparams["n_heads"]))
     fout.write(struct.pack("i", hparams["n_layers"]))
-    fout.write(struct.pack("i", hparams["dim"] // hparams["n_heads"])) # rot (obsolete)
+    fout.write(struct.pack("i", hparams["dim"] // hparams["n_heads"]))  # rot (obsolete)
     fout.write(struct.pack("i", ftype))
 
     # Is this correct??
@@ -133,16 +135,16 @@ for p in range(n_parts):
 
         print("Processing variable: " + name + " with shape: ", shape, " and type: ", v.dtype)
 
-        #data = tf.train.load_variable(dir_model, name).squeeze()
+        # data = tf.train.load_variable(dir_model, name).squeeze()
         data = v.numpy().squeeze()
-        n_dims = len(data.shape);
+        n_dims = len(data.shape)
 
         # for efficiency - transpose some matrices
         # "model/h.*/attn/c_attn/w"
         # "model/h.*/attn/c_proj/w"
         # "model/h.*/mlp/c_fc/w"
         # "model/h.*/mlp/c_proj/w"
-        #if name[-14:] == "/attn/c_attn/w" or \
+        # if name[-14:] == "/attn/c_attn/w" or \
         #   name[-14:] == "/attn/c_proj/w" or \
         #   name[-11:] == "/mlp/c_fc/w" or \
         #   name[-13:] == "/mlp/c_proj/w":
@@ -163,7 +165,7 @@ for p in range(n_parts):
         fout.write(struct.pack("iii", n_dims, len(sname), ftype_cur))
         for i in range(n_dims):
             fout.write(struct.pack("i", dshape[n_dims - 1 - i]))
-        fout.write(sname);
+        fout.write(sname)
 
         # data
         data.tofile(fout)

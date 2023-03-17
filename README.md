@@ -1,6 +1,6 @@
-# Alpaca.cpp
+# Alpaca.cpp for Windows
 
-Run a fast ChatGPT-like model locally on your device. The screencast below is not sped up and running on an M2 Macbook Air with 4GB of weights. 
+Run a fast ChatGPT-like model locally on your device. Can run in the terminal on Windows.
 
 
 [![asciicast](screencast.gif)](https://asciinema.org/a/dfJ8QXZ4u978Ona59LPEldtKK)
@@ -10,13 +10,7 @@ This combines the [LLaMA foundation model](https://github.com/facebookresearch/l
 
 ## Get started
 
-```
-git clone https://github.com/antimatter15/alpaca.cpp
-cd alpaca.cpp
-
-make chat
-./chat
-```
+`alpaca_win.vcxproj` is a Visual Studio project file. You can open it with Visual Studio and build it.
 
 You can download the weights for `ggml-alpaca-7b-q4.bin` with BitTorrent `magnet:?xt=urn:btih:5aaceaec63b03e51a98f04fd5c42320b2a033010&dn=ggml-alpaca-7b-q4.bin&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2Fopentracker.i2p.rocks%3A6969%2Fannounce`
 
@@ -30,7 +24,7 @@ wget -O ggml-alpaca-7b-q4.bin -c https://ipfs.io/ipfs/QmQ1bf2BTnYxq73MFJWu1B7bQ2
 wget -O ggml-alpaca-7b-q4.bin -c https://cloudflare-ipfs.com/ipfs/QmQ1bf2BTnYxq73MFJWu1B7bQ2UD6qG7D7YDCxhTndVkPC
 ```
 
-Save the `ggml-alpaca-7b-q4.bin` file in the same directory as your `./chat` executable. 
+Save the `ggml-alpaca-7b-q4.bin` file in the same directory as your `chat.exe` executable. 
 
 The weights are based on the published fine-tunes from `alpaca-lora`, converted back into a pytorch checkpoint with a [modified script](https://github.com/tloen/alpaca-lora/pull/19) and then quantized with llama.cpp the regular way. 
 
