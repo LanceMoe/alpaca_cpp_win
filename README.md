@@ -2,6 +2,8 @@
 
 Run a fast ChatGPT-like model locally on your device. Can run in the terminal on Windows.
 
+The code is forked from https://github.com/antimatter15/alpaca.cpp
+
 
 [![asciicast](screencast.gif)](https://asciinema.org/a/dfJ8QXZ4u978Ona59LPEldtKK)
 
